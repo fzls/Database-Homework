@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 
 /**
  * Created by 风之凌殇 on 2015/12/13.
+ * test Git
  */
 public class Administrator {
     public static final String USER = "sa";
