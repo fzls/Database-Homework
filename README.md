@@ -1,2 +1,2 @@
 # Database-Homework
-the homework of the database class
+the homework of the administrator class

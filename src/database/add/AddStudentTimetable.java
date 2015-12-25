@@ -1,6 +1,6 @@
 package database.add;
 
-import database.Administrator;
+import database.userInterfaces.Administrator;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

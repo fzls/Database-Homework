@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: lib/icons.jar
-Main-Class: database.Administrator
-
