@@ -1,6 +1,6 @@
 package database.update;
 
-import database.Administrator;
+import database.userInterfaces.Administrator;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,7 +15,7 @@ import java.sql.Statement;
 import java.util.Vector;
 
 /**
- * Created by Silence on 2015/12/12.
+ * Created by 风之凌殇 on 2015/12/12.
  */
 public class UpdateCollege {
     private JTextField old_ID;
