@@ -1,10 +1,10 @@
 package database.userInterfaces;
 
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,15 +32,11 @@ public class Login {
     private JPanel test;
     private JFrame frame;
     private String verifyCode;
-    private int width;
-    private int height;
-    private int codeCount;
-    private int fontHeight;
-    private int x = 0;
-    private int codeY;
     char[] codeSequence = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
             'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
-            'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+            'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
     public Login() {
         frame = new JFrame("登陆教务系统");
@@ -48,6 +44,7 @@ public class Login {
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.pack();
         initVerifyCode();
+        frame.pack();
         frame.setVisible(true);
         退出Button.addActionListener(new ActionListener() {
             @Override
@@ -65,7 +62,7 @@ public class Login {
                             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                         } else {
                             initVerifyCode();
-                            JOptionPane.showMessageDialog(null, "密码错误或用户名不存在，请重新输入", "WARNING", JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "密码错误或用户名不存在或权限不正确，请重新输入", "WARNING", JOptionPane.WARNING_MESSAGE);
                         }
 
                     } else if (isStudent.isSelected()) {
@@ -76,7 +73,7 @@ public class Login {
                             JOptionPane.showMessageDialog(null, "登陆学生模块成功，这是debug信息，请注意注释掉", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             initVerifyCode();
-                            JOptionPane.showMessageDialog(null, "密码错误或用户名不存在，请重新输入", "WARNING", JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "密码错误或用户名不存在或权限不正确，请重新输入", "WARNING", JOptionPane.WARNING_MESSAGE);
                         }
                     } else if (isTeacher.isSelected()) {
                         //TODO wait the teacher module to be added in
@@ -86,7 +83,7 @@ public class Login {
                             JOptionPane.showMessageDialog(null, "登陆教师模块成功，这是debug信息，请注意注释掉", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             initVerifyCode();
-                            JOptionPane.showMessageDialog(null, "密码错误或用户名不存在，请重新输入", "WARNING", JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "密码错误或用户名不存在或权限不正确，请重新输入", "WARNING", JOptionPane.WARNING_MESSAGE);
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "你还没有选择登陆角色，请点击按钮进行选择。", "WARNING", JOptionPane.WARNING_MESSAGE);
@@ -101,7 +98,7 @@ public class Login {
 
             //TODO 验证码模板稍后完成
             private boolean checkCodePassed() {
-                return verifyCode.equals(verificationCode.getText());
+                return verificationCode.getText() != null && !verificationCode.getText().equals("") && verifyCode.equals(verificationCode.getText());
             }
 
             private boolean isValidUser(String role) {
@@ -118,10 +115,17 @@ public class Login {
                     String Username = username.getText();
                     String Password = String.valueOf(password.getPassword());
 
-                    ResultSet rs = st.executeQuery("SELECT * FROM usercode WHERE U_name = '" + Username + "' AND Password = '" + Password + "' AND Privilege = '" + role + "'");
-                    if (rs.getFetchSize() == 1)
-                        isValid = true;
-                    rs.close();
+                    if (!Username.isEmpty() && !Password.isEmpty()) {
+                        ResultSet rs = st.executeQuery("SELECT * FROM usercode WHERE U_name = '" + Username + "' AND Password = '" + Password + "' collate Chinese_PRC_CS_AI");
+                        String actualRole = new String();
+                        while (rs.next()) {
+                            actualRole = rs.getString(4);
+                        }
+                        System.out.println(actualRole);
+                        if (actualRole.equals(role))
+                            isValid = true;
+                        rs.close();
+                    }
                     st.close();
                     con.close();
                 } catch (Exception ex) {
@@ -131,19 +135,34 @@ public class Login {
                 return isValid;
             }
         });
+        verificationCodeGraph.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                initVerifyCode();
+            }
+        });
+        isAdministrator.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                initVerifyCode();
+            }
+        });
     }
 
     private void initVerifyCode() {
-        width = verificationCodeGraph.getWidth();
-        height = verificationCodeGraph.getHeight();
-        fontHeight = height - 2;
-        x = width / (codeCount + 1);
-        codeY = height - 4;
+        Random random = new Random();
+
+        int codeCount = 4 + random.nextInt(3);
+        int width = 200;
+        int height = 40;
+        int fontHeight = height - 2;
+        int wordWidth = width / (codeCount + 1);
+        int codeY = height - 4;
 
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics2D = bufferedImage.createGraphics();
-
-        Random random = new Random();
 
         graphics2D.setColor(Color.WHITE);
         graphics2D.fillRect(0, 0, width, height);
@@ -155,31 +174,40 @@ public class Login {
         graphics2D.drawRect(0, 0, width - 1, height - 1);
 
         graphics2D.setColor(Color.BLACK);
-        for (int i = 0; i < 160; ++i) {
-            int x = random.nextInt(width);
-            int y = random.nextInt(height);
-            int xl = random.nextInt(12);
-            int yl = random.nextInt(12);
-            graphics2D.drawLine(x, y, x + xl, y + yl);
+        for (int i = 0; i < 30; ++i) {
+            int X = random.nextInt(width);
+            int Y = random.nextInt(height);
+            int deltaX = random.nextInt(20);
+            int deltaY = random.nextInt(20);
+            graphics2D.drawLine(X, Y, X + deltaX, Y + deltaY);
         }
 
         StringBuffer randomCode = new StringBuffer();
         int red = 0, green = 0, blue = 0;
         for (int i = 0; i < codeCount; ++i) {
-            String strRand = String.valueOf(codeSequence[random.nextInt(36)]);
+            String strRand = String.valueOf(codeSequence[random.nextInt(codeSequence.length)]);
 
             red = random.nextInt(255);
             green = random.nextInt(255);
             blue = random.nextInt(255);
 
+            AffineTransform trans = new AffineTransform();
+            trans.rotate(1.0 * StrictMath.PI * (-30 + random.nextInt(60)) / 180, (i + 1) * wordWidth, codeY);
+
+            float scaleSize = random.nextFloat() + 0.8f;
+            if (scaleSize > 1f) scaleSize = 1f;
+            trans.scale(scaleSize, scaleSize);
+            graphics2D.setTransform(trans);
+
             graphics2D.setColor(new Color(red, green, blue));
-            graphics2D.drawString(strRand, (i + 1) * x, codeY);
+            graphics2D.drawString(strRand, (i + 1) * wordWidth, codeY);
 
             randomCode.append(strRand);
         }
 
         verifyCode = randomCode.toString();
-        test.paintComponents(graphics2D);
+        ImageIcon icon = new ImageIcon(bufferedImage);
+        verificationCodeGraph.setIcon(icon);
 
     }
 
