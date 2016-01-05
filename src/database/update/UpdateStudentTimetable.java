@@ -1,6 +1,7 @@
 package database.update;
 
 import database.userInterfaces.Administrator;
+import database.userInterfaces.UpdateModules;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -50,6 +51,7 @@ public class UpdateStudentTimetable {
         退出Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                UpdateModules updateModules = new UpdateModules();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });

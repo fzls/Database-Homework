@@ -1,6 +1,6 @@
 package database.userInterfaces;
 
-import database.remove.*;
+import database.query.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -8,94 +8,95 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
 /**
- * Created by Silence on 2015/12/13.
+ * Created by 风之凌殇 on 2015/12/13.
  */
-public class RemoveModule {
+public class QueryModule {
     private JButton 学院信息Button;
     private JButton 系别信息Button;
     private JButton 课程信息Button;
+    private JButton 教师信息Button;
+    private JButton 退出Button;
     private JButton 学生信息Button;
     private JButton 教师授课信息Button;
     private JButton 学生选课信息Button;
-    private JButton 教师信息Button;
     private JButton 用户信息Button;
-    private JButton 退出Button;
     private JPanel panel;
     private JFrame frame;
 
-    public RemoveModule() {
-        frame = new JFrame("RemoveModule");
+    public QueryModule() {
+        frame = new JFrame("QueryModule");
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+
         学院信息Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RemoveCollege removeCollege = new RemoveCollege();
+                new QueryCollege();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
         系别信息Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RemoveDepartment removeDepartment = new RemoveDepartment();
+                new QueryDepartment();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
         课程信息Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RemoveCourse removeCourse = new RemoveCourse();
+                new QueryCourse();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
         学生信息Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RemoveStudent removeStudent = new RemoveStudent();
+                new QueryStudent();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
         学生选课信息Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RemoveStudentTimetable removeStudentTimetable = new RemoveStudentTimetable();
+                new QueryStudentTimetable();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
         教师信息Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RemoveTeacher removeTeacher = new RemoveTeacher();
+                new QueryTeacher();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
         教师授课信息Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RemoveTeacherTimetable removeTeacherTimetable = new RemoveTeacherTimetable();
+                new QueryTeacherTimetable();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
+
         用户信息Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RemoveUsercode removeUsercode = new RemoveUsercode();
+                new QueryUsercode();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
         退出Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Administrator administrator = new Administrator();
+                new Login();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
     }
 
     public static void main(String[] args) {
-        RemoveModule removeModule = new RemoveModule();
-
+        new QueryModule();
     }
 }

@@ -16,20 +16,20 @@
           <text value="管理员"/>
         </properties>
       </component>
-      <component id="fe574" class="javax.swing.JRadioButton" binding="isStudent">
+      <component id="fe574" class="javax.swing.JRadioButton" binding="isQuery">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="学生"/>
+          <text value="模糊查询"/>
         </properties>
       </component>
-      <component id="e3733" class="javax.swing.JRadioButton" binding="isTeacher">
+      <component id="e3733" class="javax.swing.JRadioButton" binding="isStatisticalQuery">
         <constraints>
           <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="教师"/>
+          <text value="统计查询"/>
         </properties>
       </component>
       <grid id="2a616" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

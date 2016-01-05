@@ -1,6 +1,5 @@
 package database.userInterfaces;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -17,12 +16,14 @@ import java.util.Random;
  */
 public class Login {
     public static final String aAdministrator = "Administrator";
-    public static final String aStudent = "Student";
-    public static final String aTeacher = "Teacher";
+    public static final String aQuery = "Query";
+    public static final String aStatisticalQuery = "StatisticalQuery";
+    public static final boolean disableRoles = true;
+    public static final boolean disableVC = true;
     private JPanel panel;
     private JRadioButton isAdministrator;
-    private JRadioButton isStudent;
-    private JRadioButton isTeacher;
+    private JRadioButton isQuery;
+    private JRadioButton isStatisticalQuery;
     private JButton 登陆Button;
     private JButton 退出Button;
     private JPasswordField password;
@@ -58,29 +59,27 @@ public class Login {
                 if (checkCodePassed()) {
                     if (isAdministrator.isSelected()) {
                         if (isValidUser(aAdministrator)) {
-                            Administrator administrator = new Administrator();
+                            new Administrator();
                             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                         } else {
                             initVerifyCode();
                             JOptionPane.showMessageDialog(null, "密码错误或用户名不存在或权限不正确，请重新输入", "WARNING", JOptionPane.WARNING_MESSAGE);
                         }
 
-                    } else if (isStudent.isSelected()) {
-                        //TODO wait the student module to be added in
-                        if (isValidUser(aStudent)) {
-//                        Student student = new Student();
-//                        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                            JOptionPane.showMessageDialog(null, "登陆学生模块成功，这是debug信息，请注意注释掉", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                    } else if (isQuery.isSelected()) {
+                        if (isValidUser(aQuery)) {
+                            new QueryModule();
+                            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+//                            JOptionPane.showMessageDialog(null, "登陆学生模块成功，这是debug信息，请注意注释掉", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             initVerifyCode();
                             JOptionPane.showMessageDialog(null, "密码错误或用户名不存在或权限不正确，请重新输入", "WARNING", JOptionPane.WARNING_MESSAGE);
                         }
-                    } else if (isTeacher.isSelected()) {
-                        //TODO wait the teacher module to be added in
-                        if (isValidUser(aTeacher)) {
-//                        Teacher teacher = new Teacher();
-//                        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                            JOptionPane.showMessageDialog(null, "登陆教师模块成功，这是debug信息，请注意注释掉", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                    } else if (isStatisticalQuery.isSelected()) {
+                        //TODO wait the statistical module to be added in
+                        if (isValidUser(aStatisticalQuery)) {
+                            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+//                            JOptionPane.showMessageDialog(null, "登陆教师模块成功，这是debug信息，请注意注释掉", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             initVerifyCode();
                             JOptionPane.showMessageDialog(null, "密码错误或用户名不存在或权限不正确，请重新输入", "WARNING", JOptionPane.WARNING_MESSAGE);
@@ -96,12 +95,15 @@ public class Login {
 
             }
 
-            //TODO 验证码模板稍后完成
             private boolean checkCodePassed() {
+                if (disableVC)
+                    return true;
                 return verificationCode.getText() != null && !verificationCode.getText().equals("") && verifyCode.equals(verificationCode.getText());
             }
 
             private boolean isValidUser(String role) {
+                if (disableRoles)
+                    return true;
                 boolean isValid = false;
                 try {
                     Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");

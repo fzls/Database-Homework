@@ -15,6 +15,9 @@ public class Administrator {
     public static final String USER = "sa";
     public static final String PASSWORD = "test";
     public static final String URL = "jdbc:odbc:fzls";
+//    public static final String USER = "user05";
+//    public static final String PASSWORD = "u0005";
+//    public static final String URL = "jdbc:odbc:rich";
     private JButton 更新Button;
     private JButton 添加Button;
     private JButton 删除Button;
@@ -33,6 +36,7 @@ public class Administrator {
             @Override
             public void actionPerformed(ActionEvent e) {
                 UpdateModules updateModule = new UpdateModules();
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
 
@@ -40,6 +44,7 @@ public class Administrator {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AddModule addModule = new AddModule();
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
 
@@ -49,17 +54,19 @@ public class Administrator {
             @Override
             public void actionPerformed(ActionEvent e) {
                 RemoveModule removeModule = new RemoveModule();
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
         退出Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                new Login();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
     }
 
     public static void main(String[] args) {
-        Administrator administrator = new Administrator();
+        new Administrator();
     }
 }

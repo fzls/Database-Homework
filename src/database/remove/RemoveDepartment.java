@@ -1,6 +1,7 @@
 package database.remove;
 
 import database.userInterfaces.Administrator;
+import database.userInterfaces.RemoveModule;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -24,6 +25,7 @@ public class RemoveDepartment {
     private JTable tableView;
     private JPanel panel;
     private JScrollPane afterDeletion;
+    private JTextField col_id;
     private JFrame frame;
     private int panelWidth;
     private int panelHeight;
@@ -41,6 +43,7 @@ public class RemoveDepartment {
         退出Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                RemoveModule removeModule = new RemoveModule();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
@@ -62,7 +65,8 @@ public class RemoveDepartment {
                     Connection con = DriverManager.getConnection(Administrator.URL, Administrator.USER, Administrator.PASSWORD);
                     Statement st = con.createStatement();
                     String Dept_id = dept_id.getText();
-                    String query = "DELETE FROM department WHERE Dept_id = '" + Dept_id + "'";
+                    String Col_id =col_id.getText();
+                    String query = "DELETE FROM department WHERE Dept_id = '" + Dept_id + "' AND Col_id = '"+Col_id+"'";
                     if (!Dept_id.isEmpty())
                         st.executeUpdate(query);
 
@@ -93,7 +97,7 @@ public class RemoveDepartment {
             private void createTableModel(DefaultTableModel tableModel) {
                 tableModel.addColumn("Dept_id");
                 tableModel.addColumn("Dept_name");
-                tableModel.addColumn("Col_id");
+                tableModel.addColumn("col_id");
             }
         });
     }

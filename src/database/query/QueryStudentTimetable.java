@@ -1,6 +1,6 @@
-package database.add;
+package database.query;
 
-import database.userInterfaces.AddModule;
+import database.userInterfaces.QueryModule;
 import database.userInterfaces.Administrator;
 
 import javax.swing.*;
@@ -18,18 +18,13 @@ import java.util.Vector;
 /**
  * Created by 风之凌殇 on 2015/12/14.
  */
-public class AddTeacher {
-    private JTextField t_id;
-    private JTextField t_name;
-    private JTextField t_sex;
-    private JTextField t_birth;
-    private JTextField t_prov;
-    private JTextField t_region;
-    private JTextField dept_id;
-    private JTextField col_id;
-    private JTextField prof;
-    private JTextField sal;
-    private JButton 添加Button;
+public class QueryStudentTimetable {
+    private JTextField ayear;
+    private JTextField semester;
+    private JTextField s_id;
+    private JTextField c_id;
+    private JTextField score;
+    private JButton 查询Button;
     private JButton 退出Button;
     private JTable tableView;
     private JPanel panel;
@@ -38,8 +33,8 @@ public class AddTeacher {
     private int panelWidth;
     private int panelHeight;
 
-    public AddTeacher() {
-        frame = new JFrame("AddTeacher");
+    public QueryStudentTimetable() {
+        frame = new JFrame("QueryStudentTimetable");
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
@@ -52,12 +47,12 @@ public class AddTeacher {
         退出Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddModule addModule = new AddModule();
+                new QueryModule();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
 
-        添加Button.addActionListener(new ActionListener() {
+        查询Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DefaultTableModel tableModel = new DefaultTableModel();
@@ -72,34 +67,31 @@ public class AddTeacher {
                 try {
                     Connection con = DriverManager.getConnection(Administrator.URL, Administrator.USER, Administrator.PASSWORD);
                     Statement st = con.createStatement();
-                    String T_id = t_id.getText();
-                    String T_name = t_name.getText();
-                    String T_sex = t_sex.getText();
-                    String T_birth = t_birth.getText();
-                    String T_prov = t_prov.getText();
-                    String T_region = t_region.getText();
-                    String Dept_id = dept_id.getText();
-                    String Col_id = col_id.getText();
-                    String Prof = prof.getText();
-                    String Sal = sal.getText();
+                    String Ayear = ayear.getText();
+                    String Semester = semester.getText();
+                    String S_id = s_id.getText();
+                    String C_id = c_id.getText();
+                    String Score = score.getText();
+                    String query = "SELECT * FROM sc where 1 = 1";
+                    if (!Ayear.isEmpty() && Ayear != "")
+                        query += "and Ayear like '%" + Ayear + "%'";
+                    if (!Semester.isEmpty() && Semester != "")
+                        query += "and Semester like '%" + Semester + "%'";
+                    if (!S_id.isEmpty() && S_id != "")
+                        query += "and S_id like '%" + S_id + "%'";
+                    if (!C_id.isEmpty() && C_id != "")
+                        query += "and C_id like '%" + C_id + "%'";
+                    if (!Score.isEmpty() && Score != "")
+                        query += "and Score like '%" + Score + "%'";
 
-                    String query = "INSERT INTO teacher VALUES ('" + T_id + "', '" + T_name + "', '" + T_sex + "', '" + T_birth + "', '" + T_prov + "', '" + T_region + "', '" + Dept_id + "', '" + Col_id + "', '" + Prof + "', '" + Sal + "')";
-                    if (!T_id.isEmpty() && !T_name.isEmpty() && !T_sex.isEmpty() && !T_birth.isEmpty() && !T_prov.isEmpty() && !T_region.isEmpty() && !Dept_id.isEmpty() && !Col_id.isEmpty() && !Prof.isEmpty() && !Sal.isEmpty())
-                        st.executeUpdate(query);
-
-                    ResultSet rs = st.executeQuery("SELECT * FROM teacher");
+                    ResultSet rs = st.executeQuery(query);
                     while (rs.next()) {
                         Vector<java.io.Serializable> vcRows = new Vector<>();
                         vcRows.addElement(rs.getString(1));
-                        vcRows.addElement(rs.getString(2));
+                        vcRows.addElement(rs.getInt(2));
                         vcRows.addElement(rs.getString(3));
-                        vcRows.addElement(rs.getDate(4));
-                        vcRows.addElement(rs.getString(5));
-                        vcRows.addElement(rs.getString(6));
-                        vcRows.addElement(rs.getString(7));
-                        vcRows.addElement(rs.getString(8));
-                        vcRows.addElement(rs.getString(9));
-                        vcRows.addElement(rs.getInt(10));
+                        vcRows.addElement(rs.getString(4));
+                        vcRows.addElement(rs.getInt(5));
                         tableModel.addRow(vcRows);
                     }
                     rs.close();
@@ -107,34 +99,29 @@ public class AddTeacher {
                     con.close();
                     tableView.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);//adjust the panel according to the table's current height, and set them visible
                     panelHeight = tableView.getRowHeight() * tableView.getRowCount() + 50;
-                    afterInsert.setPreferredSize(new Dimension((int) (panelWidth * 1.4), panelHeight));
+                    afterInsert.setPreferredSize(new Dimension(panelWidth, panelHeight));
                     afterInsert.setVisible(true);
                     tableView.setVisible(true);
                     frame.pack();
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "failed to excute the SQL statement\n" + ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "failed to execute the SQL statement\n" + ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
 
             }
 
             private void createTableModel(DefaultTableModel tableModel) {
-                tableModel.addColumn("T_id");
-                tableModel.addColumn("T_name");
-                tableModel.addColumn("T_sex");
-                tableModel.addColumn("T_birth");
-                tableModel.addColumn("T_prov");
-                tableModel.addColumn("T_region");
-                tableModel.addColumn("Dept_id");
-                tableModel.addColumn("Col_id");
-                tableModel.addColumn("Prof");
-                tableModel.addColumn("Sal");
+                tableModel.addColumn("Ayear");
+                tableModel.addColumn("Semester");
+                tableModel.addColumn("S_id");
+                tableModel.addColumn("C_id");
+                tableModel.addColumn("Score");
             }
         });
     }
 
     public static void main(String[] args) {
-        AddTeacher addTeacher = new AddTeacher();
+        new QueryStudentTimetable();
     }
 }

@@ -1,5 +1,6 @@
 package database.add;
 
+import database.userInterfaces.AddModule;
 import database.userInterfaces.Administrator;
 
 import javax.swing.*;
@@ -45,6 +46,7 @@ public class AddUsercode {
         退出Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AddModule addModule = new AddModule();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });

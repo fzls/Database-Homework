@@ -1,5 +1,6 @@
 package database.add;
 
+import database.userInterfaces.AddModule;
 import database.userInterfaces.Administrator;
 
 import javax.swing.*;
@@ -20,7 +21,7 @@ import java.util.Vector;
 public class AddCollege {
     private JTextField ID;
     private JTextField name;
-    private JButton 添加Button;
+    private JButton 查询Button;
     private JButton 退出Button;
     private JTable tableView;
     private JPanel panel;
@@ -43,11 +44,12 @@ public class AddCollege {
         退出Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AddModule addModule = new AddModule();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
 
-        添加Button.addActionListener(new ActionListener() {
+        查询Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DefaultTableModel tableModel = new DefaultTableModel();

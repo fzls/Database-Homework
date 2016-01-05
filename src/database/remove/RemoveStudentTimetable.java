@@ -1,6 +1,7 @@
 package database.remove;
 
 import database.userInterfaces.Administrator;
+import database.userInterfaces.RemoveModule;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -44,6 +45,7 @@ public class RemoveStudentTimetable {
         退出Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                RemoveModule removeModule = new RemoveModule();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
