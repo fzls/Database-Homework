@@ -1,7 +1,7 @@
-package database.query;
+package database.statisticalQuery;
 
 import database.userInterfaces.Administrator;
-import database.userInterfaces.QueryModule;
+import database.userInterfaces.StatisticalQueryModule;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,9 +18,9 @@ import java.util.Vector;
 /**
  * Created by 风之凌殇 on 2015/12/13.
  */
-public class QueryCollege {
-    private JTextField ID;
-    private JTextField name;
+public class TeacherOfCertainRating {
+    private JTextField ayear;
+    private JTextField rating;
     private JButton 查询Button;
     private JButton 退出Button;
     private JTable tableView;
@@ -30,8 +30,8 @@ public class QueryCollege {
     private int panelWidth;
     private int panelHeight;
 
-    public QueryCollege() {
-        frame = new JFrame("QueryCollege");
+    public TeacherOfCertainRating() {
+        frame = new JFrame("TeacherOfCertainRating");
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
@@ -44,7 +44,7 @@ public class QueryCollege {
         退出Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new QueryModule();
+                new StatisticalQueryModule();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
@@ -64,18 +64,28 @@ public class QueryCollege {
                 try {
                     Connection con = DriverManager.getConnection(Administrator.URL, Administrator.USER, Administrator.PASSWORD);
                     Statement st = con.createStatement();
-                    String Col_id = ID.getText();
-                    String Col_name = name.getText();
-                    String query = "SELECT * FROM college WHERE 1 = 1";
-                    if (!Col_id.isEmpty() && Col_id != "")
-                        query += " AND Col_id like '%" + Col_id + "%'";
-                    if (!Col_name.isEmpty() && Col_name != "")
-                        query += " AND Col_name like '%" + Col_name + "%'";
+                    String Ayear = ayear.getText();
+                    String Rating = rating.getText();
+                    //TODO SQL need to be test
+                    String query = "select t.T_id, t.T_name, t.T_sex, t.T_birth,t.T_prov, t.T_region,t.Dept_id,t.Col_id,t.Prof,t.Sal,tc.Ayear, tc.Semester,tc.C_id " +
+                            "from teacher as t,tc where  t.T_id = tc.T_id and tc.T_id = (SELECT T_id FROM tc WHERE Ayear = '" + Ayear + "' and Rating = '" + Rating + "' )";
+
                     ResultSet rs = st.executeQuery(query);
                     while (rs.next()) {
-                        Vector<String> vcRows = new Vector<>();
+                        Vector<Object> vcRows = new Vector<>();
                         vcRows.addElement(rs.getString(1));
                         vcRows.addElement(rs.getString(2));
+                        vcRows.addElement(rs.getString(3));
+                        vcRows.addElement(rs.getDate(4));
+                        vcRows.addElement(rs.getString(5));
+                        vcRows.addElement(rs.getString(6));
+                        vcRows.addElement(rs.getString(7));
+                        vcRows.addElement(rs.getString(8));
+                        vcRows.addElement(rs.getString(9));
+                        vcRows.addElement(rs.getInt(10));
+                        vcRows.addElement(rs.getString(11));
+                        vcRows.addElement(rs.getInt(12));
+                        vcRows.addElement(rs.getString(13));
                         tableModel.addRow(vcRows);
                     }
                     rs.close();
@@ -96,13 +106,24 @@ public class QueryCollege {
             }
 
             private void createTableModel(DefaultTableModel tableModel) {
+                tableModel.addColumn("T_id");
+                tableModel.addColumn("T_name");
+                tableModel.addColumn("T_sex");
+                tableModel.addColumn("T_birth");
+                tableModel.addColumn("T_prov");
+                tableModel.addColumn("T_region");
+                tableModel.addColumn("Dept_id");
                 tableModel.addColumn("Col_id");
-                tableModel.addColumn("Col_name");
+                tableModel.addColumn("Prof");
+                tableModel.addColumn("Sal");
+                tableModel.addColumn("Ayear");
+                tableModel.addColumn("Semester");
+                tableModel.addColumn("C_id");
             }
         });
     }
 
     public static void main(String[] args) {
-        new QueryCollege();
+        new TeacherOfCertainRating();
     }
 }

@@ -1,7 +1,7 @@
-package database.query;
+package database.statisticalQuery;
 
+import database.userInterfaces.StatisticalQueryModule;
 import database.userInterfaces.Administrator;
-import database.userInterfaces.QueryModule;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,9 +18,9 @@ import java.util.Vector;
 /**
  * Created by 风之凌殇 on 2015/12/13.
  */
-public class QueryCollege {
-    private JTextField ID;
-    private JTextField name;
+public class StudentsWhoRanksTopFiveInThisCourse {
+    private JTextField ayear;
+    private JTextField c_id;
     private JButton 查询Button;
     private JButton 退出Button;
     private JTable tableView;
@@ -30,8 +30,8 @@ public class QueryCollege {
     private int panelWidth;
     private int panelHeight;
 
-    public QueryCollege() {
-        frame = new JFrame("QueryCollege");
+    public StudentsWhoRanksTopFiveInThisCourse() {
+        frame = new JFrame("AddCollege");
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
@@ -44,11 +44,10 @@ public class QueryCollege {
         退出Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new QueryModule();
+                new StatisticalQueryModule();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
-
         查询Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,18 +63,18 @@ public class QueryCollege {
                 try {
                     Connection con = DriverManager.getConnection(Administrator.URL, Administrator.USER, Administrator.PASSWORD);
                     Statement st = con.createStatement();
-                    String Col_id = ID.getText();
-                    String Col_name = name.getText();
-                    String query = "SELECT * FROM college WHERE 1 = 1";
-                    if (!Col_id.isEmpty() && Col_id != "")
-                        query += " AND Col_id like '%" + Col_id + "%'";
-                    if (!Col_name.isEmpty() && Col_name != "")
-                        query += " AND Col_name like '%" + Col_name + "%'";
+                    String Ayear = ayear.getText();
+                    String C_id = c_id.getText();
+                    //TODO need test
+                    String query = "select top 5 s.S_id,s.S_name,sc.Score from student as s, sc " +
+                            "where s.S_id=sc.S_id and sc.S_id = ( select S_id from sc where Ayear = '"+Ayear+"' and C_id = '"+C_id+"') order by sc.Score";
+
                     ResultSet rs = st.executeQuery(query);
                     while (rs.next()) {
                         Vector<String> vcRows = new Vector<>();
                         vcRows.addElement(rs.getString(1));
                         vcRows.addElement(rs.getString(2));
+                        vcRows.addElement(rs.getString(3));
                         tableModel.addRow(vcRows);
                     }
                     rs.close();
@@ -96,13 +95,14 @@ public class QueryCollege {
             }
 
             private void createTableModel(DefaultTableModel tableModel) {
-                tableModel.addColumn("Col_id");
-                tableModel.addColumn("Col_name");
+                tableModel.addColumn("S_id");
+                tableModel.addColumn("S_name");
+                tableModel.addColumn("Score ");
             }
         });
     }
 
     public static void main(String[] args) {
-        new QueryCollege();
+        new StudentsWhoRanksTopFiveInThisCourse();
     }
 }

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="database.userInterfaces.StatisticalQueryModule">
+  <grid id="27dc6" binding="panel" layout-manager="GridLayoutManager" row-count="3" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="803" height="542"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="69d18" class="javax.swing.JButton" binding="课程选修学生情况Button">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="楷体" size="20" style="1"/>
+          <foreground color="-10510688"/>
+          <horizontalTextPosition value="0"/>
+          <icon value="myIcons/myIcons_111.png"/>
+          <text value="课程选修学生情况"/>
+          <toolTipText value=""/>
+          <verticalTextPosition value="3"/>
+        </properties>
+      </component>
+      <component id="572bd" class="javax.swing.JButton" binding="课程尖子生Button">
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="楷体" size="20" style="1"/>
+          <foreground color="-10510688"/>
+          <horizontalTextPosition value="0"/>
+          <icon value="myIcons/myIcons_100.png"/>
+          <text value="课程尖子生"/>
+          <toolTipText value=""/>
+          <verticalTextPosition value="3"/>
+        </properties>
+      </component>
+      <component id="d0a36" class="javax.swing.JButton" binding="学生排名Button">
+        <constraints>
+          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="楷体" size="20" style="1"/>
+          <foreground color="-10510688"/>
+          <horizontalTextPosition value="0"/>
+          <icon value="myIcons/myIcons_114.png"/>
+          <text value="学生排名"/>
+          <toolTipText value=""/>
+          <verticalTextPosition value="3"/>
+        </properties>
+      </component>
+      <component id="c140f" class="javax.swing.JButton" binding="吊车尾Button">
+        <constraints>
+          <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="楷体" size="20" style="1"/>
+          <foreground color="-10510688"/>
+          <horizontalTextPosition value="0"/>
+          <icon value="myIcons/myIcons_108.png"/>
+          <text value="吊车尾"/>
+          <toolTipText value=""/>
+          <verticalTextPosition value="3"/>
+        </properties>
+      </component>
+      <component id="e68dc" class="javax.swing.JButton" binding="退出Button" default-binding="true">
+        <constraints>
+          <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="楷体" size="20" style="0"/>
+          <foreground color="-10510688"/>
+          <horizontalTextPosition value="0"/>
+          <icon value="myIcons/myIcons_097.png"/>
+          <text value="退出"/>
+          <toolTipText value=""/>
+          <verticalTextPosition value="3"/>
+        </properties>
+      </component>
+      <component id="f938a" class="javax.swing.JButton" binding="挂科大王Button">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="楷体" size="20" style="1"/>
+          <foreground color="-10510688"/>
+          <horizontalTextPosition value="0"/>
+          <icon value="myIcons/myIcons_098.png"/>
+          <text value="挂科大王"/>
+          <toolTipText value=""/>
+          <verticalTextPosition value="3"/>
+        </properties>
+      </component>
+      <component id="fd1c9" class="javax.swing.JButton" binding="高考强省何处寻Button">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="楷体" size="20" style="1"/>
+          <foreground color="-10510688"/>
+          <horizontalTextPosition value="0"/>
+          <icon value="myIcons/myIcons_099.png"/>
+          <text value="高考强省何处寻"/>
+          <toolTipText value=""/>
+          <verticalTextPosition value="3"/>
+        </properties>
+      </component>
+      <component id="7eb69" class="javax.swing.JButton" binding="挂科之源Button">
+        <constraints>
+          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="楷体" size="20" style="1"/>
+          <foreground color="-10510688"/>
+          <horizontalTextPosition value="0"/>
+          <icon value="myIcons/myIcons_109.png"/>
+          <text value="挂科之源"/>
+          <toolTipText value=""/>
+          <verticalTextPosition value="3"/>
+        </properties>
+      </component>
+      <component id="bbc5a" class="javax.swing.JButton" binding="学霸五人众Button">
+        <constraints>
+          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="楷体" size="20" style="1"/>
+          <foreground color="-10510688"/>
+          <horizontalTextPosition value="0"/>
+          <icon value="myIcons/myIcons_102.png"/>
+          <text value="学霸五人众"/>
+          <toolTipText value=""/>
+          <verticalTextPosition value="3"/>
+        </properties>
+      </component>
+      <component id="24a1e" class="javax.swing.JButton" binding="评教Button" default-binding="true">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="楷体" size="20" style="1"/>
+          <foreground color="-10510688"/>
+          <horizontalTextPosition value="0"/>
+          <icon value="myIcons/myIcons_107.png"/>
+          <text value="评教"/>
+          <verticalTextPosition value="3"/>
+        </properties>
+      </component>
+      <component id="5b620" class="javax.swing.JButton" binding="_75PlusPlusButton">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="楷体" size="20" style="1"/>
+          <foreground color="-10510688"/>
+          <horizontalTextPosition value="0"/>
+          <icon value="myIcons/myIcons_116.png"/>
+          <text value="75++"/>
+          <verticalAlignment value="0"/>
+          <verticalTextPosition value="3"/>
+        </properties>
+      </component>
+      <component id="b2200" class="javax.swing.JButton" binding="寻找大学霸Button" default-binding="true">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="楷体" size="20" style="1"/>
+          <foreground color="-10510688"/>
+          <horizontalTextPosition value="0"/>
+          <icon value="myIcons/myIcons_117.png"/>
+          <text value="寻找大学霸"/>
+          <verticalTextPosition value="3"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

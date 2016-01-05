@@ -1,7 +1,7 @@
-package database.query;
+package database.statisticalQuery;
 
+import database.userInterfaces.StatisticalQueryModule;
 import database.userInterfaces.Administrator;
-import database.userInterfaces.QueryModule;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -16,11 +16,10 @@ import java.sql.Statement;
 import java.util.Vector;
 
 /**
- * Created by 风之凌殇 on 2015/12/13.
+ * Created by 风之凌殇 on 2015/12/14.
  */
-public class QueryCollege {
-    private JTextField ID;
-    private JTextField name;
+public class TheStudentWhoHasTheLowerstScoreInThisCourse {
+    private JTextField c_id;
     private JButton 查询Button;
     private JButton 退出Button;
     private JTable tableView;
@@ -30,8 +29,8 @@ public class QueryCollege {
     private int panelWidth;
     private int panelHeight;
 
-    public QueryCollege() {
-        frame = new JFrame("QueryCollege");
+    public TheStudentWhoHasTheLowerstScoreInThisCourse() {
+        frame = new JFrame("TheStudentWhoHasTheLowerstScoreInThisCourse");
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
@@ -44,7 +43,7 @@ public class QueryCollege {
         退出Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new QueryModule();
+                new StatisticalQueryModule();
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
@@ -64,18 +63,22 @@ public class QueryCollege {
                 try {
                     Connection con = DriverManager.getConnection(Administrator.URL, Administrator.USER, Administrator.PASSWORD);
                     Statement st = con.createStatement();
-                    String Col_id = ID.getText();
-                    String Col_name = name.getText();
-                    String query = "SELECT * FROM college WHERE 1 = 1";
-                    if (!Col_id.isEmpty() && Col_id != "")
-                        query += " AND Col_id like '%" + Col_id + "%'";
-                    if (!Col_name.isEmpty() && Col_name != "")
-                        query += " AND Col_name like '%" + Col_name + "%'";
+                    String C_id = c_id.getText();
+                    //TODO SQL
+                    String query = "SELECT * FROM teacher where 1 = 1";
+
                     ResultSet rs = st.executeQuery(query);
                     while (rs.next()) {
-                        Vector<String> vcRows = new Vector<>();
+                        Vector<java.io.Serializable> vcRows = new Vector<>();
                         vcRows.addElement(rs.getString(1));
                         vcRows.addElement(rs.getString(2));
+                        vcRows.addElement(rs.getString(3));
+                        vcRows.addElement(rs.getDate(4));
+                        vcRows.addElement(rs.getString(5));
+                        vcRows.addElement(rs.getString(6));
+                        vcRows.addElement(rs.getString(7));
+                        vcRows.addElement(rs.getString(8));
+                        vcRows.addElement(rs.getString(9));
                         tableModel.addRow(vcRows);
                     }
                     rs.close();
@@ -83,7 +86,7 @@ public class QueryCollege {
                     con.close();
                     tableView.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);//adjust the panel according to the table's current height, and set them visible
                     panelHeight = tableView.getRowHeight() * tableView.getRowCount() + 50;
-                    afterInsert.setPreferredSize(new Dimension(panelWidth, panelHeight));
+                    afterInsert.setPreferredSize(new Dimension((int) (panelWidth * 1.4), panelHeight));
                     afterInsert.setVisible(true);
                     tableView.setVisible(true);
                     frame.pack();
@@ -96,13 +99,20 @@ public class QueryCollege {
             }
 
             private void createTableModel(DefaultTableModel tableModel) {
+                tableModel.addColumn("S_id");
+                tableModel.addColumn("S_name");
+                tableModel.addColumn("S_sex");
+                tableModel.addColumn("S_birth");
+                tableModel.addColumn("S_prov");
+                tableModel.addColumn("S_region");
+                tableModel.addColumn("S_into");
+                tableModel.addColumn("Dept_id");
                 tableModel.addColumn("Col_id");
-                tableModel.addColumn("Col_name");
             }
         });
     }
 
     public static void main(String[] args) {
-        new QueryCollege();
+        new TheStudentWhoHasTheLowerstScoreInThisCourse();
     }
 }

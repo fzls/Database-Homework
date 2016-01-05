@@ -76,8 +76,8 @@ public class Login {
                             JOptionPane.showMessageDialog(null, "密码错误或用户名不存在或权限不正确，请重新输入", "WARNING", JOptionPane.WARNING_MESSAGE);
                         }
                     } else if (isStatisticalQuery.isSelected()) {
-                        //TODO wait the statistical module to be added in
                         if (isValidUser(aStatisticalQuery)) {
+                            new StatisticalQueryModule();
                             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 //                            JOptionPane.showMessageDialog(null, "登陆教师模块成功，这是debug信息，请注意注释掉", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                         } else {
