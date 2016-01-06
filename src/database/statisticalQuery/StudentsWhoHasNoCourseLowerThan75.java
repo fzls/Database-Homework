@@ -1,7 +1,7 @@
 package database.statisticalQuery;
 
-import database.userInterfaces.StatisticalQueryModule;
 import database.userInterfaces.Administrator;
+import database.userInterfaces.StatisticalQueryModule;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -63,8 +63,8 @@ public class StudentsWhoHasNoCourseLowerThan75 {
                 try {
                     Connection con = DriverManager.getConnection(Administrator.URL, Administrator.USER, Administrator.PASSWORD);
                     Statement st = con.createStatement();
-                    //TODO  SQL and compute the Number
-                    String query = "SELECT * FROM sc where 1 = 1";
+                    // 查询其选修课程的成绩均在 75 分以上的学生的基本情况，以及人数；
+                    String query = "select student.S_id,S_name,S_sex,S_birth,S_prov,S_region,S_into,Dept_id,Col_id from sc,student,course where sc.S_id=student.S_id and sc.C_id = course.C_id and student.S_id not in (select sc.S_id from sc where score<75) group by student.S_id,S_name,S_sex,S_birth,S_prov,S_region,S_into,Dept_id,Col_id";
 
                     ResultSet rs = st.executeQuery(query);
                     while (rs.next()) {
@@ -81,6 +81,12 @@ public class StudentsWhoHasNoCourseLowerThan75 {
                         tableModel.addRow(vcRows);
                     }
                     rs.close();
+                    String getCount = "select count(s_id) as Counts from student where s_id in (select student.S_id from sc,student,course where sc.S_id=student.S_id and sc.C_id = course.C_id and student.S_id not in (select sc.S_id from sc where score<75) group by student.S_id,S_name,S_sex,S_birth,S_prov,S_region,S_into,Dept_id,Col_id)";
+                    ResultSet counts = st.executeQuery(getCount);
+                    while (counts.next()) {
+                        number.setText(counts.getString(1));
+                    }
+                    counts.close();
                     st.close();
                     con.close();
                     tableView.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);//adjust the panel according to the table's current height, and set them visible

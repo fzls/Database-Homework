@@ -32,7 +32,6 @@ public class StatisticalQueryModule {
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-
         评教Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

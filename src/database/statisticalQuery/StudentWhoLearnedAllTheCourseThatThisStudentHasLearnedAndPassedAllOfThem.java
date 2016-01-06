@@ -1,7 +1,7 @@
 package database.statisticalQuery;
 
-import database.userInterfaces.StatisticalQueryModule;
 import database.userInterfaces.Administrator;
+import database.userInterfaces.StatisticalQueryModule;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -65,8 +65,10 @@ public class StudentWhoLearnedAllTheCourseThatThisStudentHasLearnedAndPassedAllO
                     Connection con = DriverManager.getConnection(Administrator.URL, Administrator.USER, Administrator.PASSWORD);
                     Statement st = con.createStatement();
                     String S_id = s_id.getText();
-                    //TODO SQL
-                    String query = "SELECT * FROM tc where 1 = 1";
+                    // SQL 查询至少选修了某一学生所修的所有课程并且其选修的所有课程均及格的学生的基本情况
+                    String query = "select distinct sc.S_id,S_name,S_sex,S_birth,S_prov,S_region,S_into,Dept_id,Col_id from sc,student " +
+                            "where sc.S_id=student.S_id and C_id>=all(select C_id from sc where sc.S_id='" + S_id + "') and sc.S_id <> '" + S_id + "'";
+
 
                     ResultSet rs = st.executeQuery(query);
                     while (rs.next()) {

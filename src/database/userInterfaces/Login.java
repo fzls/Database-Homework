@@ -18,8 +18,8 @@ public class Login {
     public static final String aAdministrator = "Administrator";
     public static final String aQuery = "Query";
     public static final String aStatisticalQuery = "StatisticalQuery";
-    public static final boolean disableRoles = true;
-    public static final boolean disableVC = true;
+    public static final boolean disableRoles = false;
+    public static final boolean disableVC = false;
     private JPanel panel;
     private JRadioButton isAdministrator;
     private JRadioButton isQuery;

@@ -1,7 +1,7 @@
 package database.statisticalQuery;
 
-import database.userInterfaces.StatisticalQueryModule;
 import database.userInterfaces.Administrator;
+import database.userInterfaces.StatisticalQueryModule;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -25,6 +25,7 @@ public class HowManyStudentsCameFromEachProvinceWithinThisDepartment {
     private JTable tableView;
     private JPanel panel;
     private JScrollPane afterInsert;
+    private JTextField col_id;
     private JFrame frame;
     private int panelWidth;
     private int panelHeight;
@@ -64,8 +65,9 @@ public class HowManyStudentsCameFromEachProvinceWithinThisDepartment {
                     Connection con = DriverManager.getConnection(Administrator.URL, Administrator.USER, Administrator.PASSWORD);
                     Statement st = con.createStatement();
                     String Dept_id = dept_id.getText();
-                    //TODO SQL
-                    String query = "SELECT * FROM usercode where 1 = 1";
+                    String Col_id = col_id.getText();
+                    // SQL 查询各系各来源省份的学生人数
+                    String query = "select S_prov,count(s_id)as Student_Numbers from student where Col_id = '" + Col_id + "' and Dept_id = '" + Dept_id + "' group by S_prov";
 
                     ResultSet rs = st.executeQuery(query);
                     while (rs.next()) {

@@ -1,7 +1,7 @@
 package database.statisticalQuery;
 
-import database.userInterfaces.StatisticalQueryModule;
 import database.userInterfaces.Administrator;
+import database.userInterfaces.StatisticalQueryModule;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -65,15 +65,14 @@ public class Ranking {
                     Statement st = con.createStatement();
                     String Ayear = ayear.getText();
                     String Dept_id = dept_id.getText();
-                    //TODO SQL
-                    String query = "SELECT * FROM student where 1 = 1";
+                    // SQL 查询各系各学年学生的成绩排名（按课程学分与成绩的加权平均计算）
+                    String query = "select sum(Credit*score)/sum(Credit)as GPA,S_name from sc,student,course where sc.S_id=student.S_id " +
+                            "and sc.C_id = course.C_id and Dept_id='" + Dept_id + "' and Ayear='" + Ayear + "' group by S_name order by GPA DESC";
                     ResultSet rs = st.executeQuery(query);
                     while (rs.next()) {
                         Vector<java.io.Serializable> vcRows = new Vector<>();
                         vcRows.addElement(rs.getString(1));
                         vcRows.addElement(rs.getString(2));
-                        vcRows.addElement(rs.getInt(3));
-                        vcRows.addElement(rs.getInt(4));
                         tableModel.addRow(vcRows);
                     }
                     rs.close();
@@ -94,10 +93,9 @@ public class Ranking {
             }
 
             private void createTableModel(DefaultTableModel tableModel) {
-                tableModel.addColumn("S_id");
-                tableModel.addColumn("S_name");
                 tableModel.addColumn("GPA");
-                tableModel.addColumn("Ranking");
+                tableModel.addColumn("S_name");
+
             }
         });
     }

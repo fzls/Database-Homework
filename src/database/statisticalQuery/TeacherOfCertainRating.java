@@ -66,9 +66,9 @@ public class TeacherOfCertainRating {
                     Statement st = con.createStatement();
                     String Ayear = ayear.getText();
                     String Rating = rating.getText();
-                    //TODO SQL need to be test
-                    String query = "select t.T_id, t.T_name, t.T_sex, t.T_birth,t.T_prov, t.T_region,t.Dept_id,t.Col_id,t.Prof,t.Sal,tc.Ayear, tc.Semester,tc.C_id " +
-                            "from teacher as t,tc where  t.T_id = tc.T_id and tc.T_id = (SELECT T_id FROM tc WHERE Ayear = '" + Ayear + "' and Rating = '" + Rating + "' )";
+                    // 查询各学年，不同评教等级教师的基本情况及任课情况；
+                    String query = "select teacher.T_id, T_name,T_sex,T_birth,T_prov,T_region,Dept_id,Col_id,Prof,Ayear, Semester,C_id,Rating from teacher,tc " +
+                            "where teacher.T_id=tc.T_id and Ayear='" + Ayear + "' and Rating='" + Rating + "' order by teacher.T_id";
 
                     ResultSet rs = st.executeQuery(query);
                     while (rs.next()) {

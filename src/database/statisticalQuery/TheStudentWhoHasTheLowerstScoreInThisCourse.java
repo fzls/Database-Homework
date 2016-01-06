@@ -1,7 +1,7 @@
 package database.statisticalQuery;
 
-import database.userInterfaces.StatisticalQueryModule;
 import database.userInterfaces.Administrator;
+import database.userInterfaces.StatisticalQueryModule;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -64,8 +64,8 @@ public class TheStudentWhoHasTheLowerstScoreInThisCourse {
                     Connection con = DriverManager.getConnection(Administrator.URL, Administrator.USER, Administrator.PASSWORD);
                     Statement st = con.createStatement();
                     String C_id = c_id.getText();
-                    //TODO SQL
-                    String query = "SELECT * FROM teacher where 1 = 1";
+                    // 查询某门成绩最低的学生情况
+                    String query = "select * from student where s_id = (select top 1 S_id from sc where C_id ='" + C_id + "' order by score)";
 
                     ResultSet rs = st.executeQuery(query);
                     while (rs.next()) {

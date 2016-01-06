@@ -1,7 +1,7 @@
 package database.statisticalQuery;
 
-import database.userInterfaces.StatisticalQueryModule;
 import database.userInterfaces.Administrator;
+import database.userInterfaces.StatisticalQueryModule;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -66,23 +66,26 @@ public class StudentsWhoSelectThisCourse {
                     Statement st = con.createStatement();
                     String Ayear = ayear.getText();
                     String C_id = c_id.getText();
-                    String query = "SELECT * FROM course where 1 = 1";
-                    query="SELECT count(distinct T_id) as numOfStudents,  FROM tc where Ayear = '"+Ayear+"' and C_id = '"+C_id+"'";
-                    query="select count(distinct T_id) as _90_100 from tc where Ayear = '"+Ayear+"' and C_id = '"+C_id+"' and Score > 90 and Score <= 100";
-                    query="select count(distinct T_id) as _80_90 from tc where Ayear = '"+Ayear+"' and C_id = '"+C_id+"' and Score > 80 and Score <= 90";
-                    query="select count(distinct T_id) as _70_80 from tc where Ayear = '"+Ayear+"' and C_id = '"+C_id+"' and Score > 70 and Score <= 80";
-                    query="select count(distinct T_id) as _60_70 from tc where Ayear = '"+Ayear+"' and C_id = '"+C_id+"' and Score > 60 and Score <= 100";
-                    query="select count(distinct T_id) as _60 from tc where Ayear = '"+Ayear+"' and C_id = '"+C_id+"' and Score <= 60";
-                    //TODO need fix up
-                    ResultSet rs = st.executeQuery(query);
-                    while (rs.next()) {
-                        Vector<java.io.Serializable> vcRows = new Vector<>();
-                        vcRows.addElement(rs.getString(1));
-                        vcRows.addElement(rs.getString(2));
-                        vcRows.addElement(rs.getInt(3));
-                        tableModel.addRow(vcRows);
+                    Vector<java.io.Serializable> vcRows = new Vector<>();
+                    // 查询各学年，不同课程的学生选修情况，包括选课人数，各分数档人数（如 100~90，89~80，79~70，69~60，不及格等），平均分，最高分，最低分；
+                    String[] query = new String[9];
+                    query[0] = "SELECT count(distinct S_id) as numOfStudents FROM sc where Ayear = '" + Ayear + "' and C_id = '" + C_id + "'";
+                    query[1] = "SELECT AVG(score) as average FROM sc where Ayear = '" + Ayear + "' and C_id = '" + C_id + "'";
+                    query[2] = "SELECT MIN(score) as minimum FROM sc where Ayear = '" + Ayear + "' and C_id = '" + C_id + "'";
+                    query[3] = "SELECT MAX(score) as maximum FROM sc where Ayear = '" + Ayear + "' and C_id = '" + C_id + "'";
+                    query[4] = "select count(distinct S_id) as _90_100 from sc where Ayear = '" + Ayear + "' and C_id = '" + C_id + "' and Score > 90 and Score <= 100";
+                    query[5] = "select count(distinct S_id) as _80_90 from sc where Ayear = '" + Ayear + "' and C_id = '" + C_id + "' and Score > 80 and Score <= 90";
+                    query[6] = "select count(distinct S_id) as _70_80 from sc where Ayear = '" + Ayear + "' and C_id = '" + C_id + "' and Score > 70 and Score <= 80";
+                    query[7] = "select count(distinct S_id) as _60_70 from sc where Ayear = '" + Ayear + "' and C_id = '" + C_id + "' and Score > 60 and Score <= 70";
+                    query[8] = "select count(distinct S_id) as _60 from sc where Ayear = '" + Ayear + "' and C_id = '" + C_id + "' and Score <= 60";
+                    for (int i = 0; i < 9; ++i) {
+                        ResultSet rs = st.executeQuery(query[i]);
+                        while (rs.next()) {
+                            vcRows.addElement(rs.getInt(1));
+                        }
+                        rs.close();
                     }
-                    rs.close();
+                    tableModel.addRow(vcRows);
                     st.close();
                     con.close();
                     tableView.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);//adjust the panel according to the table's current height, and set them visible
@@ -101,6 +104,9 @@ public class StudentsWhoSelectThisCourse {
 
             private void createTableModel(DefaultTableModel tableModel) {
                 tableModel.addColumn("Numbers");
+                tableModel.addColumn("Average");
+                tableModel.addColumn("Minimum");
+                tableModel.addColumn("Maximum");
                 tableModel.addColumn("90~100");
                 tableModel.addColumn("80~90");
                 tableModel.addColumn("70~80");

@@ -1,7 +1,7 @@
 package database.statisticalQuery;
 
-import database.userInterfaces.StatisticalQueryModule;
 import database.userInterfaces.Administrator;
+import database.userInterfaces.StatisticalQueryModule;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -63,8 +63,8 @@ public class HowManyStudentsCameFromEachProvince {
                 try {
                     Connection con = DriverManager.getConnection(Administrator.URL, Administrator.USER, Administrator.PASSWORD);
                     Statement st = con.createStatement();
-                    //TODO SQL
-                    String query = "SELECT * FROM tc where 1 = 1";
+                    /* 查询各来源省份的学生人数 */
+                    String query = "select S_prov,count(s_id)as Student_Numbers from student group by S_prov";
 
                     ResultSet rs = st.executeQuery(query);
                     while (rs.next()) {

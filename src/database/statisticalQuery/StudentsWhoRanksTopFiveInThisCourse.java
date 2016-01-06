@@ -1,7 +1,7 @@
 package database.statisticalQuery;
 
-import database.userInterfaces.StatisticalQueryModule;
 import database.userInterfaces.Administrator;
+import database.userInterfaces.StatisticalQueryModule;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -31,7 +31,7 @@ public class StudentsWhoRanksTopFiveInThisCourse {
     private int panelHeight;
 
     public StudentsWhoRanksTopFiveInThisCourse() {
-        frame = new JFrame("AddCollege");
+        frame = new JFrame("StudentsWhoRanksTopFiveInThisCourse");
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
@@ -65,10 +65,8 @@ public class StudentsWhoRanksTopFiveInThisCourse {
                     Statement st = con.createStatement();
                     String Ayear = ayear.getText();
                     String C_id = c_id.getText();
-                    //TODO need test
-                    String query = "select top 5 s.S_id,s.S_name,sc.Score from student as s, sc " +
-                            "where s.S_id=sc.S_id and sc.S_id = ( select S_id from sc where Ayear = '"+Ayear+"' and C_id = '"+C_id+"') order by sc.Score";
-
+                    // 查询各学年，不同课程的前 5 名学生名单及相关的成绩
+                    String query = "select Top 5 sc.S_id,S_name, Score from sc,student where sc.S_id=student.S_id and C_id='" + C_id + "' and Ayear='" + Ayear + "' order by score DESC";
                     ResultSet rs = st.executeQuery(query);
                     while (rs.next()) {
                         Vector<String> vcRows = new Vector<>();

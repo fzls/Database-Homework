@@ -1,7 +1,7 @@
 package database.statisticalQuery;
 
-import database.userInterfaces.StatisticalQueryModule;
 import database.userInterfaces.Administrator;
+import database.userInterfaces.StatisticalQueryModule;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -62,8 +62,12 @@ public class TopFiveStudentsWhoHasTheHighestCredits {
                 try {
                     Connection con = DriverManager.getConnection(Administrator.URL, Administrator.USER, Administrator.PASSWORD);
                     Statement st = con.createStatement();
-                    //TODO SQL
-                    String query = "SELECT * FROM usercode where 1 = 1";
+                    //  查询获取学分最高的前 5 个学生的基本情况及其学分
+                    String query = "select first.s_id,first.s_name,first.s_sex,first.s_birth,first.s_prov,first.s_region,first.s_into,first.Dept_id," +
+                            "first.col_id,second.totalCredit from (select *  from student where S_id in (select top 5 s_id from course, sc " +
+                            "where course.C_id = sc.C_id group by S_id order by sum(credit) desc)) as first, " +
+                            "(select top 5 s_id, sum(credit) as totalCredit from course, sc where course.C_id = sc.C_id " +
+                            "group by S_id order by sum(credit) desc) as second where first.S_id = second.S_id";
 
                     ResultSet rs = st.executeQuery(query);
                     while (rs.next()) {
@@ -77,7 +81,7 @@ public class TopFiveStudentsWhoHasTheHighestCredits {
                         vcRows.addElement(rs.getString(7));
                         vcRows.addElement(rs.getString(8));
                         vcRows.addElement(rs.getString(9));
-                        vcRows.addElement(rs.getInt(9));
+                        vcRows.addElement(rs.getInt(10));
                         tableModel.addRow(vcRows);
                     }
                     rs.close();
